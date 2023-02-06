@@ -1,0 +1,30 @@
+.user-container{
+    padding: 1rem;
+    width: calc(100% - 2px);
+}
+
+.left-bar{
+    width: 4px;
+}
+
+.right-block{
+    width: 3em;
+}
+
+.profile-image{
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 1.25em;
+}
+
+.middle-block{
+    width: calc(100% - 5.5em);
+}
+
+.inner-content{
+    width: 100%;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

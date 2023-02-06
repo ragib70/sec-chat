@@ -1,0 +1,18 @@
+.border-dash{
+    border: 1px dashed grey;
+}
+
+.slide-overlay{
+    min-width: 20em;
+    bottom: 5%;
+    z-index: 10;
+}
+.slide-overlay-show{
+    transform: translateX(10%);
+    transition: transform 0.5s ease-out;
+}
+
+.slide-overlay-hide{
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in;
+}
