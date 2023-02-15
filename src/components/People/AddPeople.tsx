@@ -6,7 +6,12 @@ import { HomeContext } from "../Home/Home";
 
 const AddPeople: FC = () => {
 	const { account, setNotification, contract } = useContext(AppContext);
-	const { setSelectedConversation, setPeopleView, conversations, setConversations } = useContext(HomeContext);
+	const {
+		setSelectedConversation,
+		setPeopleView,
+		conversations,
+		setConversations,
+	} = useContext(HomeContext);
 	const [address, setAddress] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<any>();
@@ -19,12 +24,13 @@ const AddPeople: FC = () => {
 				env: "prod",
 			})
 			.then((res) => {
-				setResult(
-					res || {
+				setResult({
+					...(res || {
 						name: address,
 						wallets: `eip155:${address}`,
-					}
-				);
+					}),
+					canSend: true,
+				});
 				setLoading(false);
 			})
 			.catch((err) => {

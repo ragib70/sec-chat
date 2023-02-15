@@ -50,6 +50,11 @@ const Sidebar: FC = () => {
 						{userDetails?.name || "...."}
 					</div>
 				</div>
+                <div className="d-flex justify-content-center p-2 mt-1">
+					<div className="text-cut border rounded-pill f-75 px-2">
+						{userDetails?.wallets || "...."}
+					</div>
+				</div>
 			</div>
 			<div>
 				{tabs.map((tab) => (
@@ -73,7 +78,7 @@ const Sidebar: FC = () => {
 					</div>
 				))}
 			</div>
-			<div className="mt-auto d-flex f-75 px-3 w-100 align-items-center">
+			<div className="mt-auto d-flex f-75 p-3 w-100 align-items-center">
 				<div>
 					Selected network:{" "}
 					<span className="fw-645 ms-1">

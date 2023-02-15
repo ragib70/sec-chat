@@ -73,14 +73,14 @@ const Home: FC = () => {
 					<Sidebar />
 				</div>
 				<div
-					className={`people-canvas d-block d-lg-none ${
+					className={`people-canvas h-100 d-block d-lg-none ${
 						menuCanvas ? "people-canvas-show" : ""
 					} h-100 position-absolute bg-white p-0`}
 					style={{ zIndex: 11 }}
 				>
 					<div
 						className="shadow-sm h-100"
-						style={{ marginTop: "5em" }}
+						style={{ paddingTop: "5em" }}
 					>
 						<Sidebar />
 					</div>

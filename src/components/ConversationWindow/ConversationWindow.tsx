@@ -105,6 +105,18 @@ const ConversationWindow: FC = (props) => {
 													console.log(res);
 													setSpamLoading(false);
 													setSelectedTab("chats");
+													setConversations(
+														conversations.map((c) =>
+															c.wallets ===
+															selectedConversation?.wallets
+																? {
+																		...c,
+																		canSend:
+																			false,
+																  }
+																: c
+														)
+													);
 													setSelectedConversation(
 														undefined
 													);
@@ -143,7 +155,6 @@ const ConversationWindow: FC = (props) => {
 										className="ms-2 rounded-pill px-3 py-1 bg-thm border-0 shadow-sm"
 										style={{ width: "8em" }}
 										onClick={() => {
-											setSelectedTab("chats");
 											if (!account) return;
 											setApproveLoading(true);
 											contract.methods
@@ -165,6 +176,10 @@ const ConversationWindow: FC = (props) => {
 															status: "Approved",
 														})
 														.then((res) => {
+															setConversations([
+																...conversations,
+																selectedConversation,
+															]);
 															setSelectedTab(
 																"chats"
 															);

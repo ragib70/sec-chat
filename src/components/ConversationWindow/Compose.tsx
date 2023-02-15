@@ -11,6 +11,7 @@ import { HomeContext } from "../Home/Home";
 import { ConversationContext } from "./ConversationWindow";
 import * as PushAPI from "@pushprotocol/restapi";
 import { isEmpty, uniqueId } from "lodash";
+import { pushApiKey } from "../../constants";
 
 const Compose: FC = (props) => {
 	const { prvtKey, account, setNotification } = useContext(AppContext);
@@ -42,7 +43,7 @@ const Compose: FC = (props) => {
 				receiverAddress: inBufferMessessages[0].toCAIP10,
 				pgpPrivateKey: prvtKey,
 				account: account,
-				// apiKey: "WDq5uFFphD.FQcSBEOtACwz3ESpcbwAhUbczZsJ7BnnE3vv58zL9BVXk4scwlJf56O0eVg7qcVC",
+				apiKey: pushApiKey,
 				env: "prod",
 			})
 			.then((res) => {

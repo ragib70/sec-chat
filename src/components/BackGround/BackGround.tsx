@@ -1,11 +1,11 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { AppContext } from "../../App";
+import { AppContext, AppNotification } from "../../App";
 import { notifIcons } from "../../constants";
 import SlideOverlay from "../SlideOverlay/SlideOverlay";
 
 const BackGround: FC<any> = (props) => {
 	const [viewSize, setViewSize] = useState("xl");
-	const [notifOverlay, setNotifOverlay] = useState(false);
+	const [notifOverlay, setNotifOverlay] = useState<{notif?: AppNotification; show: boolean}>({show: false});
 	const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined);
 	const { setNotification, notification } = useContext(AppContext);
 	const handleResize = (e: any) => {
@@ -26,17 +26,17 @@ const BackGround: FC<any> = (props) => {
 		if (!notification) return;
 		if (timer) {
 			clearTimeout(timer);
-			setNotifOverlay(false);
-			setTimeout(() => setNotifOverlay(true), 500);
+			setNotifOverlay({...notifOverlay, show: false});
+			setTimeout(() => setNotifOverlay({notif: notification, show: true}), 500);
 		} else {
-			setNotifOverlay(true);
+			setNotifOverlay({notif: notification, show: true});
 		}
 
 		setTimer(
 			setTimeout(() => {
-				setNotifOverlay(false);
+				setNotifOverlay({notif: notification, show: false});
 				setNotification(undefined);
-			}, notification.retention || 5000)
+			}, notification.retention || 2*60*1000)
 		);
 	}, [notification]);
 
@@ -52,23 +52,23 @@ const BackGround: FC<any> = (props) => {
 			</div>
 
 			<SlideOverlay
-				show={notifOverlay}
-				onToggle={() => setNotifOverlay(false)}
+				show={notifOverlay.show}
+				onToggle={(show) => setNotifOverlay({...notifOverlay, show})}
 			>
-				{notification && (
+				{notifOverlay.notif && (
 					<div className="d-flex p-2" style={{ width: "20rem" }}>
 						<div
 							className={`text-${
-								notifIcons[notification.type].color
+								notifIcons[notifOverlay.notif.type].color
 							} me-2`}
 						>
 							<i
 								className={`bi bi-${
-									notifIcons[notification.type].bsIcon
+									notifOverlay.notif && notifIcons[notifOverlay.notif.type].bsIcon
 								}`}
 							></i>
 						</div>
-						<div className="f-80">{notification.message}</div>
+						<div className="f-80">{notifOverlay.notif?.message}</div>
 					</div>
 				)}
 			</SlideOverlay>

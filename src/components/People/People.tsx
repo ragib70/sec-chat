@@ -19,13 +19,14 @@ export type PeopleView = "add-new" | "people";
 const People: FC = () => {
 	const { prvtKey, account, setNotification, selectedNetworkId, contract } =
 		useContext(AppContext);
-	const [conversations, setConversations] = useState<any[]>([]);
 	const {
 		selectedConversation,
 		setSelectedConversation,
 		selectedTab,
 		peopleView,
 		setPeopleView,
+		conversations,
+		setConversations,
 	} = useContext(HomeContext);
 
 	const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined);
@@ -115,7 +116,7 @@ const People: FC = () => {
 						let newConversation: any[] = [];
 						if (res.length === 0) {
 							setConversations([]);
-                            setLoading(false);
+							setLoading(false);
 							return [];
 						}
 						const reswallets = res.map((m) =>
@@ -134,7 +135,7 @@ const People: FC = () => {
 						);
 						if (res.length === presentCount) {
 							setTimer(setTimeout(() => fetchPeople(pre), 50000));
-                            setLoading(false);
+							setLoading(false);
 							return pre;
 						}
 
@@ -226,7 +227,11 @@ const People: FC = () => {
 
 	useEffect(() => {
 		if (timer) clearTimeout(timer);
-		fetchPeople([]);
+		if (!account) {
+			setConversations([]);
+		} else {
+			fetchPeople([]);
+		}
 	}, [account, prvtKey, selectedTab, selectedNetworkId]);
 
 	useEffect(() => {
