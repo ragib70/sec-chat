@@ -36,7 +36,7 @@ const BackGround: FC<any> = (props) => {
 			setTimeout(() => {
 				setNotifOverlay({notif: notification, show: false});
 				setNotification(undefined);
-			}, notification.retention || 2*60*1000)
+			}, notification.retention || 20*1000)
 		);
 	}, [notification]);
 

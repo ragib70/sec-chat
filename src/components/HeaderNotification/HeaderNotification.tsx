@@ -52,6 +52,10 @@ const HeaderNotification: FC = (props) => {
 					}
 				}
 				for (let netId of allowedNetworkIds) {
+                    // TO DO: remove this block to get requests across netowrks
+                    if (netId !== selectedNetworkId) continue;
+                    // 
+
 					const netContract = new web3.eth.Contract(
 						ABI,
 						networks[netId].contractAddress
