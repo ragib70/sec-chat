@@ -11,6 +11,7 @@ const AddPeople: FC = () => {
 		setPeopleView,
 		conversations,
 		setConversations,
+        setSelectedTab
 	} = useContext(HomeContext);
 	const [address, setAddress] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -128,8 +129,8 @@ const AddPeople: FC = () => {
 												contract.methods
 													.depositSPAmount(
 														(
-															result?.wallets ||
-															""
+															((result?.wallets ||
+															"") as string).toLowerCase()
 														).substring(7)
 													)
 													.send({
@@ -147,6 +148,7 @@ const AddPeople: FC = () => {
 														setSelectedConversation(
 															result
 														);
+                                                        setSelectedTab("chat");
 														setPeopleView("people");
 														setNotification({
 															id: uniqueId(),

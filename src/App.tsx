@@ -12,8 +12,8 @@ import Web3 from "web3";
 import { allowedNetworkIds, networks } from "./constants";
 import NetworkOption from "./components/NetworkOption/NetworkOption";
 
-const ABI = require("./abi.json");
-const web3 = new Web3(window.ethereum);
+export const ABI = require("./abi.json");
+export const web3 = new Web3(window.ethereum);
 
 export interface AppNotification {
 	id: string;

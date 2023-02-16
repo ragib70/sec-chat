@@ -227,8 +227,9 @@ const People: FC = () => {
 
 	useEffect(() => {
 		if (timer) clearTimeout(timer);
+        setConversations([]);
 		if (!account) {
-			setConversations([]);
+			
 		} else {
 			fetchPeople([]);
 		}

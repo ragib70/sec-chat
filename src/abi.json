@@ -54,14 +54,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address payable",
-				"name": "_sender",
+				"internalType": "address",
+				"name": "_addrToUnblock",
 				"type": "address"
 			}
 		],
-		"name": "undeclareSpam",
+		"name": "unblockContact",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -103,14 +103,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_addrToUnblock",
+				"internalType": "address payable",
+				"name": "_sender",
 				"type": "address"
 			}
 		],
-		"name": "unblockContact",
+		"name": "undeclareSpam",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -236,12 +236,49 @@
 	},
 	{
 		"inputs": [],
+		"name": "getReceiversChatRequestAdresses",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getSPAmount",
 		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "senderSPAmount",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "receiversChatRequestAddresses",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

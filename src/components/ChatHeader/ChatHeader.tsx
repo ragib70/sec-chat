@@ -1,14 +1,22 @@
-import { FC, useContext, useEffect } from "react";
+import {
+	FC,
+	useContext
+} from "react";
 import { AppContext } from "../../App";
 import * as PushAPI from "@pushprotocol/restapi";
 import { HomeContext } from "../Home/Home";
 import { isEmpty, uniqueId } from "lodash";
+import HeaderNotification from "../HeaderNotification/HeaderNotification";
 
 const ChatHeader: FC = (props) => {
-	const { account, setAccount, prvtKey, setPrvtKey, setNotification } =
-		useContext(AppContext);
 	const {
-		selectedConversation,
+		account,
+		setAccount,
+		prvtKey,
+		setPrvtKey,
+		setNotification
+	} = useContext(AppContext);
+	const {
 		menuCanvas,
 		setMenuCanvas,
 		setSelectedConversation,
@@ -24,18 +32,10 @@ const ChatHeader: FC = (props) => {
 				<i className="bi bi-list text-white"></i>
 			</button>
 			<div className="fs-4">SecChat</div>
-			{/* <div>
-                <button
-                    onClick={()=>{
-                        // (selectedConversation?.wallets || '').substring(7)
-                        
-                    }}
-                    disabled={!selectedConversation || !account}
-                >
-                    Call COntract
-                </button>
-            </div> */}
 			<div className="ms-auto">
+                <HeaderNotification />
+            </div>
+			<div className="ms-2">
 				<button
 					className="rounded-pill px-3 py-1 bg-thm border-0 shadow-sm text-white"
 					onClick={async () => {
