@@ -22,7 +22,7 @@ export const networks: { [key: string]: Network } = {
 			"https://polygon-testnet.public.blastapi.io",
 			"https://polygon-mumbai.blockpi.network/v1/rpc/public",
 		],
-        contractAddress: '0xf87522907591fD5271583D72ae6ac1E516ccc83C'
+        contractAddress: '0x4E6724E99083Cd5bC6b566FbEB15C72f748463fe'
 	},
 	"137": {
 		label: "Polygon Mainnet",
@@ -33,13 +33,13 @@ export const networks: { [key: string]: Network } = {
 		label: "Filecoin Hyperspace testnet",
 		chainId: "3141",
 		rpcUrls: ["https://filecoin-hyperspace.chainstacklabs.com/rpc/v1"],
-        contractAddress: '0x4a7e9465C9BcB022BCb75e533B369F2D8408B5A3'
+        contractAddress: '0xD2D8019dC3D7D4258b9e53BFACFbe8517c47c79e'
 	},
     "5001": {
         label: 'Mantle Testnet',
         chainId: '5001',
         rpcUrls: ["https://rpc.testnet.mantle.xyz"],
-        contractAddress: '0xD2D8019dC3D7D4258b9e53BFACFbe8517c47c79e'
+        contractAddress: '0x0e9dF147be69EfA819d5d3C6859B3b4d34a7CbA0'
     }
 };
 
