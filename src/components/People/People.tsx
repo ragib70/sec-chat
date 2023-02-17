@@ -11,7 +11,7 @@ import * as PushAPI from "@pushprotocol/restapi";
 import moment from "moment";
 import "./People.css";
 import { HomeContext } from "../Home/Home";
-import { startCase, uniqueId } from "lodash";
+import { isEmpty, startCase, uniqueId } from "lodash";
 import AddPeople from "./AddPeople";
 
 export type PeopleView = "add-new" | "people";
@@ -115,6 +115,7 @@ const People: FC = () => {
 
 						let newConversation: any[] = [];
 						if (res.length === 0) {
+							setTimer(setTimeout(() => fetchPeople([]), 50000));
 							setConversations([]);
 							setLoading(false);
 							return [];
@@ -219,6 +220,7 @@ const People: FC = () => {
 					.catch((err) => {
 						console.log(err);
 						setLoading(false);
+						setTimer(setTimeout(() => fetchPeople(pre), 50000));
 					});
 			}
 		},
@@ -227,9 +229,8 @@ const People: FC = () => {
 
 	useEffect(() => {
 		if (timer) clearTimeout(timer);
-        setConversations([]);
+		setConversations([]);
 		if (!account) {
-			
 		} else {
 			fetchPeople([]);
 		}
@@ -246,6 +247,12 @@ const People: FC = () => {
 		conversations[index].timestamp = selectedConversation.timestamp;
 		setConversations([...conversations]);
 	}, [selectedConversation]);
+
+    useEffect(()=>{
+        if (isEmpty(conversations)){
+            setSelectedConversation(undefined);
+        }
+    }, [conversations])
 	return (
 		<div className="w-100 h-100">
 			{peopleView === "people" && (

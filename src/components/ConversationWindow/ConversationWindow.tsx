@@ -183,9 +183,9 @@ const ConversationWindow: FC = (props) => {
 															setSelectedTab(
 																"chats"
 															);
-															setSelectedConversation(
+                                                            setTimeout(() => setSelectedConversation(
 																selectedConversation
-															);
+															), 500);
 															setApproveLoading(
 																false
 															);
