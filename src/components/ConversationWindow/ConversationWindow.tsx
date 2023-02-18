@@ -279,12 +279,13 @@ const ConversationWindow: FC = (props) => {
 													.then((res) => {
 														setSpamLoading(false);
 														// setSelectedTab('chats');
+                                                        // this is correct. why?
 														setConversations(
 															conversations.filter(
 																(c) =>
 																	c.wallets !==
 																	selectedConversation?.wallets
-															).concat([selectedConversation])
+															)
 														);
 														setSelectedConversation(
 															undefined

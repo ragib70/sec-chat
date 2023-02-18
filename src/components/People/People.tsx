@@ -211,6 +211,7 @@ const People: FC = () => {
 					})
 					.catch((err) => {
 						console.log(err);
+                        setConversations([]);
 						setLoading(false);
 					});
 			}

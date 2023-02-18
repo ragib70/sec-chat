@@ -60,7 +60,7 @@ const Compose: FC = (props) => {
 					//     messageGroups[0].messages = [inBufferMessessages[0], ...messageGroups[0].messages];
 					//     setMessageGroups([...messageGroups]);
 					// }
-					setMessages([inBufferMessessages[0], ...messages]);
+					// setMessages([inBufferMessessages[0], ...messages]);
 				}
 				setSelectedConversation({
 					...selectedConversation,

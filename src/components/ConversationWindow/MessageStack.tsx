@@ -25,11 +25,11 @@ const MessageStack: FC<any> = ({ wallet }) => {
 	>();
 	const [messageLoading, setMessageLoading] = useState(false);
     const [execId, setExecId] = useState('0');
-
+    const [intervalPeriod, setIntervalPeriod] = useState(2000);
 	const fetchMessages = useCallback(
-		(limit: number = 5, prevMessages: any[] = []) => {
+		async (limit: number = 5, prevMessages: any[] = []) => {
 			if (selectedConversation && account && prvtKey) {
-				PushAPI.chat
+				return PushAPI.chat
 					.conversationHash({
 						conversationId: selectedConversation.wallets,
 						account: account,
@@ -73,10 +73,12 @@ const MessageStack: FC<any> = ({ wallet }) => {
                     .catch((err) =>{
                         console.log(err);
                         setMessageLoading(false);
+                        throw err;
                     });
 			} else {
 				setMessages([]);
 				setMessageLoading(false);
+                return [];
 			}
 		},
 		[selectedConversation, account, prvtKey, messages]
@@ -90,12 +92,15 @@ const MessageStack: FC<any> = ({ wallet }) => {
 
 		setMessageLoading(true);
 		fetchMessages(30);
-        const interval = setInterval(()=> setExecId(uniqueId()), 10000);
+        const interval = setInterval(()=> setExecId(uniqueId()), intervalPeriod);
         return () => clearInterval(interval);
-	}, [selectedConversation?.wallets, account]);
+	}, [selectedConversation?.wallets, account, intervalPeriod]);
 
 	useEffect(()=>{
-	    fetchMessages(5, messages);
+	    fetchMessages(5, messages)
+        .catch(err =>{
+            setIntervalPeriod(50000);
+        });
 	}, [execId])
 
 	useEffect(() => {
@@ -197,7 +202,7 @@ const MessageStack: FC<any> = ({ wallet }) => {
 				</div>
 			)}
 			<div className="message-stack d-flex flex-column-reverse flex-column h-100 overflow-auto pt-5">
-				{messageGroups.map((gr1, index) => (
+				{selectedConversation && messageGroups.map((gr1, index) => (
 					<div key={`day-group-${index}`}>
 						<div className="text-center f-70 position-relative">
 							<hr />
