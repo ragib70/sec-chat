@@ -29,8 +29,8 @@ const People: FC = () => {
 		setConversations,
 	} = useContext(HomeContext);
 
-	const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined);
 	const [loading, setLoading] = useState(false);
+    const [execId, setExecId] = useState('0');
 	const fetchPeople = useCallback(
 		async (pre: any[]) => {
 			if (!account || !prvtKey) {
@@ -115,7 +115,6 @@ const People: FC = () => {
 
 						let newConversation: any[] = [];
 						if (res.length === 0) {
-							setTimer(setTimeout(() => fetchPeople([]), 50000));
 							setConversations([]);
 							setLoading(false);
 							return [];
@@ -135,7 +134,6 @@ const People: FC = () => {
 							0
 						);
 						if (res.length === presentCount) {
-							setTimer(setTimeout(() => fetchPeople(pre), 50000));
 							setLoading(false);
 							return pre;
 						}
@@ -208,19 +206,12 @@ const People: FC = () => {
 								)
 							);
 						}
-						setTimer(
-							setTimeout(
-								() => fetchPeople(newConversation),
-								50000
-							)
-						);
 						setLoading(false);
 						return newConversation;
 					})
 					.catch((err) => {
 						console.log(err);
 						setLoading(false);
-						setTimer(setTimeout(() => fetchPeople(pre), 50000));
 					});
 			}
 		},
@@ -228,13 +219,18 @@ const People: FC = () => {
 	);
 
 	useEffect(() => {
-		if (timer) clearTimeout(timer);
-		setConversations([]);
 		if (!account) {
+            setConversations([]);
 		} else {
 			fetchPeople([]);
+            const interval = setInterval(() => setExecId(uniqueId()), 50000);
+            return () => clearInterval(interval);
 		}
 	}, [account, prvtKey, selectedTab, selectedNetworkId]);
+
+    useEffect(()=>{
+        fetchPeople(conversations);
+    }, [execId])
 
 	useEffect(() => {
 		// console.log(selectedConversation);

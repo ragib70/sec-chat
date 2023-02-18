@@ -284,7 +284,7 @@ const ConversationWindow: FC = (props) => {
 																(c) =>
 																	c.wallets !==
 																	selectedConversation?.wallets
-															)
+															).concat([selectedConversation])
 														);
 														setSelectedConversation(
 															undefined

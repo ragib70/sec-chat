@@ -10,7 +10,7 @@ import { AppContext } from "../../App";
 import { HomeContext } from "../Home/Home";
 import * as PushAPI from "@pushprotocol/restapi";
 import { ConversationContext } from "./ConversationWindow";
-import { indexOf } from "lodash";
+import { indexOf, uniqueId } from "lodash";
 import moment from "moment";
 import TextCopy from "../TextCopy/TextCopy";
 
@@ -23,8 +23,8 @@ const MessageStack: FC<any> = ({ wallet }) => {
 	const [conversationHash, setConversationHash] = useState<
 		string | undefined
 	>();
-	const [timer, setTimer] = useState<NodeJS.Timeout | undefined>(undefined);
 	const [messageLoading, setMessageLoading] = useState(false);
+    const [execId, setExecId] = useState('0');
 
 	const fetchMessages = useCallback(
 		(limit: number = 5, prevMessages: any[] = []) => {
@@ -63,25 +63,17 @@ const MessageStack: FC<any> = ({ wallet }) => {
 								const nextMessages = [...head, ...tail];
 								setMessages(nextMessages);
 								setMessageLoading(false);
-								setTimer(
-									setTimeout(
-										() => fetchMessages(5, nextMessages),
-										50000
-									)
-								);
 							})
 							.catch((err) => {
 								console.log(err);
 								setMessageLoading(false);
 								setMessages([]);
-								setTimer(
-									setTimeout(
-										() => fetchMessages(5, []),
-										50000
-									)
-								);
 							});
-					});
+					})
+                    .catch((err) =>{
+                        console.log(err);
+                        setMessageLoading(false);
+                    });
 			} else {
 				setMessages([]);
 				setMessageLoading(false);
@@ -91,7 +83,6 @@ const MessageStack: FC<any> = ({ wallet }) => {
 	);
 
 	useEffect(() => {
-		if (timer) clearTimeout(timer);
 		if (!account || !selectedConversation) {
 			setMessages([]);
 			return;
@@ -99,12 +90,13 @@ const MessageStack: FC<any> = ({ wallet }) => {
 
 		setMessageLoading(true);
 		fetchMessages(30);
+        const interval = setInterval(()=> setExecId(uniqueId()), 10000);
+        return () => clearInterval(interval);
 	}, [selectedConversation?.wallets, account]);
 
-	// useEffect(()=>{
-	//     if (!conversationHash) return;
-	//     fetchMessages(30);
-	// }, [conversationHash])
+	useEffect(()=>{
+	    fetchMessages(5, messages);
+	}, [execId])
 
 	useEffect(() => {
 		const dayGroups = messages.reduce((pre: any[], cur) => {
