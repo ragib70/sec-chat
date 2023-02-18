@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# SecChat
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A messaging dapp that gets the user paid each time he/she receives a spam, and creates an environment for the spammers that they can’t survive on the dapp, making it spam free.
 
-## Available Scripts
+## Mantle Testnet Deployement
 
-In the project directory, you can run:
+https://explorer.testnet.mantle.xyz/address/0x0e9dF147be69EfA819d5d3C6859B3b4d34a7CbA0
 
-### `npm start`
+## Filecoin Hyperspace Testnet Deployement
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+https://explorer.glif.io/address/t410f2lmadhod27kclc46ko72z67ikf6epr46vzhvsaq/?network=hyperspace
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Mumbai Testnet Deployment
 
-### `npm test`
+https://mumbai.polygonscan.com/address/0x4E6724E99083Cd5bC6b566FbEB15C72f748463fe
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Problem SecChat solves
 
-### `npm run build`
+Try - https://chat-web3.web.app/
+We all use messaging apps in this world, and to be honest, we all would have received some messages like hey you’re a winner of the lucky draw, you are going to be a millionaire, share your bank details and credentials and we will transfer this huge loads of money to your account. All such messages are spams. Spam not only causes huge losses to businesses but individuals too. There is not a single messaging app that promotes such an environment to remain spam-free.
+By our dapp we are creating such an incentive model that it becomes impossible for the spammers to survive on the dapp while rewarding the receivers to get paid on receiving spam at worst.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Working -
+1. Sender needs to stake 0.1T, it gets locked at the contract, and he gets access to send messages to the receiver.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Now he writes the message to the receiver which goes as a request to the receiver.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Receiver has 2 options either to declare it as spam or to approve it,
 
-### `npm run eject`
+4. Let’s suppose he declares it as spam, the amount the spammer staked goes from the contract to the receiver. For spam, the receiver gets rewarded.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+5. Now to penalize the spammer, the SpamCount of the sender increments, and the amount staked gets multiplied by SpamCount, it also increases to 0.2T, so now next time the spammer wants to request a message he needs to stake 0.2T, and it keeps on increasing as he keeps on spamming more and more.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Challenges Faced
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Push SDK was very unpredictable, as it is in Alpha it keeps getting changed a lot and it resulted in unknown bugs which we need to handle carefully.
+There was a corner case of the sender staking the amount and the receiver not responding to the request as spam or approving it, then to prevent the stake amount from being locked indefinitely, we implemented chain link automation which refunds all the staked amount locked in the contract every 24h.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. There could be another scenario of the receiver being a spammer, and it keeps on declaring all the message requests as spam and earning the staked amount. To tackle it we have added a counter which counts the number of spam a user has declared others, and if this count is greater than 10, then we prompt the sender that, the receiver to whom you are sending the request has a bad history of declaring others as spam, and you may loose your staked amount. So be cautious to proceed. After this, it is the sender’s obligation to decide and act wisely.
 
-## Learn More
+3. We had one more feature of getting a notification that a message request on another network is present, but for that, we need to call some functions of a contract that is deployed on some network other than on which the user has logged in the SecChat. Till now we haven't been able to solve this issue.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. At time it became difficult to sort the messages into requests and spam as there is no flags in the push chat sdk, so we implemented separate structures in the contract to handle and sort into respective categories.
