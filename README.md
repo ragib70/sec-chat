@@ -2,6 +2,10 @@
 
 A messaging dapp that gets the user paid each time he/she receives a spam, and creates an environment for the spammers that they can’t survive on the dapp, making it spam free.
 
+## Youtube Video Link
+
+https://youtu.be/0eZuTIME7lE
+
 ## Mantle Testnet Deployement
 
 https://explorer.testnet.mantle.xyz/address/0x0e9dF147be69EfA819d5d3C6859B3b4d34a7CbA0
